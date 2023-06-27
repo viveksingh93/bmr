@@ -1,0 +1,100 @@
+<div class="row">
+    <div class="col-7">
+        <div class="card">
+            <div class="card-header bg-success">
+                Room portal
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th> Sr no.</th>
+                            <th> Room Name </th>
+                            <th> Location </th>
+                            <th> Seating Capacity </th>
+                            <th> Status </th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="isLoader==false">
+                        <tr *ngFor="let room of roomArray, let sr= index;">
+                            <td> {{sr+1}}</td>
+                            <td> {{room.roomName}}</td>
+                            <td> {{room.roomLocation}}</td>
+                            <td> {{room.roomSeatingCapacity}}</td>
+                            <td> {{room.isRoomActive}}</td>
+                            <td class="text-center">
+                                <!-- <button class="btn btn-success btn-sm" style="width: 60px;"
+                                    (click)="editRecord(room.id)">Edit</button>
+                                <button class="btn btn-danger btn-sm mx-2" style="width: 60px;"
+                                    (click)="onDelete(room.id)">
+                                    <div class="spinner-border spinner-border-sm" *ngIf="isLoader"></div>
+                                    Delete
+                                </button> -->
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="isLoader==true">
+                        <tr>
+                            <td colspan="6" class="text-center">
+                                <div class="spinner-border text-muted"></div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-5">
+        <div class="card">
+            <div class="card-header bg-success">
+                Create Package
+            </div>
+            <div class="card-body">
+                <form #roomForm="ngForm">
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="" class="mb-2">Room Name</label>
+                            <input type="text" class="form-control mb-2" name="roomName"
+                                [(ngModel)]="roomObj.roomName" placeholder="Enter">
+                        </div>
+                        <div class="col-6">
+                            <label for="" class="mb-2">Room Location</label>
+                            <input type="text" class="form-control" name="roomLocation"
+                                [(ngModel)]="roomObj.roomLocation" placeholder="Enter">
+                        </div>
+                        <div class="col-12">
+                            <label for="" class="mb-2">Room Seating Capacity</label>
+                                <input type="text" class="form-control" name="roomSeatingCapacity"
+                                [(ngModel)]="roomObj.roomSeatingCapacity" placeholder="Enter">
+                        </div>
+                        <div class="col-6 mx-2 mb-2">
+                            <label for="" class="mb-2 mx-2">Is Active</label>
+                            <input type="checkbox" class="margin-left:8px" name="isRoomActive"
+                                [(ngModel)]="roomObj.isRoomActive">
+                        </div>
+                    </div>
+                    <!-- {{packageObj|json}} -->
+                    <div class="text-center">
+                        <div class="">
+                            <button class="btn btn-sm btn-secondary" style="width: 80px;">Reset</button>
+                            <button class="btn btn-sm btn-primary mx-2" style="width: 80px;" *ngIf="roomObj.id==0"
+                                (click)="createNewRoom(roomForm)">
+                                <div class="spinner-border spinner-border-sm" *ngIf="isLoader"></div>
+                                Save
+                            </button>
+                            <button class="btn btn-sm btn-success mx-2" style="width: 80px;" *ngIf="roomObj.id!=0"
+                                (click)="updateRoom()">
+                                <div class="spinner-border spinner-border-sm" *ngIf="isLoader"></div>
+                                Update
+                            </button>
+                        </div>
+                        <div class="">
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

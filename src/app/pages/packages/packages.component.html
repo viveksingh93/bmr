@@ -1,0 +1,100 @@
+<div class="row">
+    <div class="col-7">
+        <div class="card">
+            <div class="card-header bg-success">
+                Package portal
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th> Sr no.</th>
+                            <th> package Name </th>
+                            <th> Cost </th>
+                            <th> Description </th>
+                            <th> Status </th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="isLoader==false">
+                        <tr *ngFor="let package of packageArray, let sr= index;">
+                            <td> {{sr+1}}</td>
+                            <td> {{package.packageName}}</td>
+                            <td> {{package.packageCost}}</td>
+                            <td> {{package.packageDescription}}</td>
+                            <td> {{package.isPackageActive}}</td>
+                            <td class="text-center">
+                                <button class="btn btn-success btn-sm" style="width: 60px;"
+                                    (click)="editRecord(package.id)">Edit</button>
+                                <button class="btn btn-danger btn-sm mx-2" style="width: 60px;"
+                                    (click)="onDelete(package.id)">
+                                    <div class="spinner-border spinner-border-sm" *ngIf="isLoader"></div>
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="isLoader==true">
+                        <tr>
+                            <td colspan="6" class="text-center">
+                                <div class="spinner-border text-muted"></div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-5">
+        <div class="card">
+            <div class="card-header bg-success">
+                Create Package
+            </div>
+            <div class="card-body">
+                <form #packageform="ngForm">
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="" class="mb-2">Package Name</label>
+                            <input type="text" class="form-control mb-2" name="packageName"
+                                [(ngModel)]="packageObj.packageName" placeholder="Enter">
+                        </div>
+                        <div class="col-6">
+                            <label for="" class="mb-2">Cost</label>
+                            <input type="text" class="form-control" name="packageCost"
+                                [(ngModel)]="packageObj.packageCost" placeholder="Enter">
+                        </div>
+                        <div class="col-12">
+                            <label for="" class="mb-2">Description</label>
+                            <textarea name="" class="form-control" name="packageDescription"
+                                [(ngModel)]="packageObj.packageDescription" placeholder="Enter" rows="3"></textarea>
+                        </div>
+                        <div class="col-6 mx-2 mb-2">
+                            <label for="" class="mb-2 mx-2">Is Active</label>
+                            <input type="checkbox" class="margin-left:8px" name="isPackageActive"
+                                [(ngModel)]="packageObj.isPackageActive">
+                        </div>
+                    </div>
+                    <!-- {{packageObj|json}} -->
+                    <div class="text-center">
+                        <div class="">
+                            <button class="btn btn-sm btn-secondary" style="width: 80px;">Reset</button>
+                            <button class="btn btn-sm btn-primary mx-2" style="width: 80px;" *ngIf="packageObj.id==0"
+                                (click)="createPackage(packageform)">
+                                <div class="spinner-border spinner-border-sm" *ngIf="isLoader"></div>
+                                Save
+                            </button>
+                            <button class="btn btn-sm btn-success mx-2" style="width: 80px;" *ngIf="packageObj.id!=0"
+                                (click)="updatePackage(packageform,packageObj.id)">
+                                <div class="spinner-border spinner-border-sm" *ngIf="isLoader"></div>
+                                Update
+                            </button>
+                        </div>
+                        <div class="">
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

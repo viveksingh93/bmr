@@ -1,0 +1,77 @@
+<div class="row">
+    <div class="col-8">
+        <div class="card">
+            <div class="card-header bg-success">
+                User List
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-3" *ngFor="let item of userList">
+                        <div class="card">
+                            <div class="card-header bg-secondary">
+                                {{item.userName}}
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-6">
+                                        {{item.clientName}}
+                                    </div>
+                                    <div class="col-6">
+                                        {{item.isActive}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="card">
+            <div class="card-header bg-success">
+                Create New User
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6" *ngIf="this.loogedUserData.role=='SuperAdmin'">
+                        <label for="">Select Client</label>
+                        <select class="form-control" [(ngModel)]="userObj.clientId">
+                            <option value="">Select Client</option>
+                            <option *ngFor="let client of Clients" [value]="client.id">{{client.clientName}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <label for="">User Name</label>
+                        <input type="text" placeholder="Enter" [(ngModel)]="userObj.userName" class="form-control">
+                    </div>
+                    <div class="col-6">
+                        <label for="">Password</label>
+                        <input type="text" placeholder="Enter" [(ngModel)]="userObj.password" class="form-control">
+                    </div>
+                    <div class="col-6">
+                        <label for="">Role</label>
+                        <select class="form-control" [(ngModel)]="userObj.role">
+                            <option value="">Select Role</option>
+                            <option value="ClientAdmin">Client Admin</option>
+                            <option value="ClientUser">Client User</option>
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <label for="">Is active</label>
+                        <input type="checkbox" [(ngModel)]="userObj.isActive" class="mb-2 mx-2">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <button class="btn btn-secondary btn-sm">Reset</button>
+                    </div>
+                    <div class="col-6">
+                        <button class="btn btn-success btn-sm" (click)="onSaveUser()">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
