@@ -1,1 +1,76 @@
-<p>booking works!</p>
+<div class="row">
+    <div class="col-12">
+        <button class="btn btn-sm btn-secondary" (click)="openBooking()">Create</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <table style="width: 100%;">
+            <tr >
+                <td style="width: 6%;" class="days">Room</td>
+                <td class="days" *ngFor="let room of roomsArray">
+                    {{room.roomName}}
+                </td>
+            </tr>
+            <tr *ngFor="let time of timeArray">
+                <td class="days">
+                    {{time.time}}
+                </td>
+                <td class="td-border" *ngFor="let room of roomsArray" [ngClass]="checkIfRoomBooked(room.RoomId,time.timeId)?'bg-success':''" > </td>
+            </tr> 
+        </table>
+    </div>
+</div>
+
+<!-- The Modal -->
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Modal Heading</h4>
+          <button type="button" class="btn-close" (click)="closeBooking()" data-bs-dismiss="modal"></button>
+        </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-6">
+                <label for="">Select Room</label>
+                <select [(ngModel)]="bookingObj.RoomId" id="" >
+                    <option *ngFor="let room of roomsArray" [value]="room.Id">{{room.roomName}}</option>
+                </select>
+            </div>
+            <div class="col-6">
+                <label for="">Select Date</label>
+                <input type="date" class="form-control" [(ngModel)]="bookingObj.bookingDate">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+                <label for="">Select From</label>
+                <select [(ngModel)]="bookingObj.fromTime" id="" >
+                    <option *ngFor="let time of timeArray" [value]="time.Id">{{time.time}}</option>
+                </select>
+            </div>
+            <div class="col-6">
+                <label for="">Select To</label>
+                <select [(ngModel)]="bookingObj.toTime" id="" >
+                    <option *ngFor="let time of timeArray" [value]="time.Id">{{time.time}}</option>
+                </select>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-success" (click)="saveBooking()" data-bs-dismiss="modal">Save</button>
+        
+          <button type="button" class="btn btn-danger" (click)="closeBooking()" data-bs-dismiss="modal">Close</button>
+        </div>
+  
+      </div>
+    </div>
+</div>
+
