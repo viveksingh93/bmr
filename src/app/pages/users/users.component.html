@@ -34,28 +34,39 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-6" *ngIf="this.loogedUserData.role=='SuperAdmin'">
+                    <div class="col-6" *ngIf="this.loogedUserData.role=='Admin'">
                         <label for="">Select Client</label>
                         <select class="form-control" [(ngModel)]="userObj.clientId">
                             <option value="">Select Client</option>
-                            <option *ngFor="let client of Clients" [value]="client.id">{{client.clientName}}
-                            </option>
+                            <option *ngFor="let client of Clients" [value]="client.id">{{client.clientName}}</option>
                         </select>
                     </div>
                     <div class="col-6">
                         <label for="">User Name</label>
-                        <input type="text" placeholder="Enter" [(ngModel)]="userObj.userName" class="form-control">
+                        <input type="text" placeholder="Enter" [(ngModel)]="userObj.userName"
+                            class="form-control">
                     </div>
                     <div class="col-6">
+                        <label for="">Email ID</label>
+                        <input type="text" placeholder="Enter"  [(ngModel)]="userObj.email"
+                            class="form-control">
+                    </div>
+                    <!-- <div class="col-6">
+                        <label for="">Client Name</label>
+                        <input type="text" placeholder="Enter" name="clientName" [(ngModel)]="userObj.clientName" class="form-control">
+                    </div> -->
+                    <div class="col-6">
                         <label for="">Password</label>
-                        <input type="text" placeholder="Enter" [(ngModel)]="userObj.password" class="form-control">
+                        <input type="text" placeholder="Enter" [(ngModel)]="userObj.password"
+                            class="form-control">
                     </div>
                     <div class="col-6">
                         <label for="">Role</label>
-                        <select class="form-control" [(ngModel)]="userObj.role">
+                        <select class="form-control"  [(ngModel)]="userObj.role">
                             <option value="">Select Role</option>
-                            <option value="ClientAdmin">Client Admin</option>
-                            <option value="ClientUser">Client User</option>
+                            <option value="Admin">Admin</option>
+                            <option value="ClientUser">User</option>
+                            <option value="ClientAdmin">Client</option>
                         </select>
                     </div>
                     <div class="col-6">

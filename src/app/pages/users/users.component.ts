@@ -9,12 +9,13 @@ import { Component, OnInit } from '@angular/core';
 export class UsersComponent implements OnInit {
   Clients: any[] = [];
   userObj = {
-    'id': 1,
     'clientId': 0,
     'userName': '',
     'password': '',
     'isActive': true,
     'role': '',
+    'email':'',
+    'clientName':''
   }
   userList: any[] = [];
   loogedUserData: any;
@@ -23,18 +24,18 @@ export class UsersComponent implements OnInit {
     const localData = localStorage.getItem("loogedUserData")//  userLogin
     if (localData != null) {
       this.loogedUserData = JSON.parse(localData);
-      if (this.loogedUserData.role == 'ClientAdmin') {
+      if (this.loogedUserData.role == 'Admin') {
         this.getAllUsers();
+        this.getAllClients();
       } else {
         this.getAllUserByClient();
+        this.userObj.clientId= this.loogedUserData.clientId
       }
     }
   }
   ngOnInit(): void {
-    //this.getAllClients()
-    this.getAllUsers()
+    
   }
-
   getAllUsers() {
     debugger
     this.http.get('https://localhost:7143/api/User/GetAllUser').subscribe((Response: any) => {
@@ -42,37 +43,40 @@ export class UsersComponent implements OnInit {
       this.userList = Response.data;
     })
   }
-
   getAllUserByClient() {
+    debugger
     this.http.get('https://localhost:7143/api/User/GetAllUsersByClientId?id=' + this.loogedUserData.clientId).subscribe((Response: any) => {
-      this.userList = Response.data;
+    debugger  
+    this.userList = Response.data;
     })
   }
-
-  
   getAllClients() {
     debugger
     this.http.get('https://localhost:7143/api/Client/GetAllClient').subscribe((Response: any) => {
       debugger
-      this.userList = Response.data
+      this.Clients = Response.data
     })
   }
   
   onSaveUser(){
     debugger
-    this.http.post('https://localhost:7143/api/User/CreateUser',this.userObj ).subscribe((Response:any)=>{
+    this.http.post('https://localhost:7143/api/User/AddUser',this.userObj).subscribe((res:any)=>{
       debugger
-      if(Response.result){
-        if(this.loogedUserData.role=='Admin'){
+      if(res.result){
+        debugger
+        if(this.loogedUserData.role == 'Admin'){
+          debugger
           this.getAllUsers();
-          //this.getAllClients()
+          this.getAllClients()
+          debugger
         }else{
           this.getAllUserByClient();
           this.userObj.clientId=this.loogedUserData.clientId;
+          debugger
         }
       }
       else{
-        alert(Response.message)
+        alert(res.message)
       }
     })
   }
