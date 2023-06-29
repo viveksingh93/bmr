@@ -4,89 +4,112 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-booking',
   templateUrl: './booking.component.html',
-  styleUrls: ['./booking.component.css']
+  styleUrls: ['./booking.component.css'],
 })
 export class BookingComponent implements OnInit {
-
-  bookingArray:any[]=[];
+  bookingArray: any[] = [];
   timeArray: any[] = [];
   roomsArray: any[] = [];
   userDetails: any;
-  bookingObj = {
-    'Id': 0,
-    'RoomId': 0,
-    'UserId': 0,
-    'bookingDate': '',
-    'fromTime': 0,
-    'toTime': 0,
-    'createDate': ''
+  bookingObj: any;
 
-  }
   constructor(private http: HttpClient) {
-    const localData = localStorage.getItem("loogedUserData")//  userLogin
+    debugger;
+    const localData = localStorage.getItem('loogedUserData'); //  userLogin
     if (localData != null) {
       this.userDetails = JSON.parse(localData);
+      debugger;
       this.getRoomsList();
+      this.bookingObj = { id: this.userDetails.id };
     }
   }
+  cha(val: any) {
+    console.log(val);
+  }
   ngOnInit(): void {
+    this.bookingObj = {
+      id: 0,
+      roomId: 0,
+      clientId: 0,
+      bookingDate: '2023-06-29T05:24:34.229Z',
+      fromTime: 0,
+      toTime: 0,
+    };
     this.getTimeList();
-    this.getAllBooking();
   }
 
   getTimeList() {
-    this.http.get('https://localhost:7143/api/Time/GetTimeList').subscribe((res: any) => {
-      this.timeArray = res.data;
-    })
+    this.http
+      .get('https://localhost:7143/api/Time/GetTimeList')
+      .subscribe((res: any) => {
+        this.timeArray = res.data;
+        this.getAllBooking();
+      });
   }
 
   getRoomsList() {
-
-    this.http.get('https://localhost:7143/api/Room/GetAllRoomsByClientId?id=' + this.userDetails.clientId).subscribe((res: any) => {
-      this.roomsArray = res.data;
-
-
-    })
+    debugger;
+    this.http
+      .get(
+        'https://localhost:7143/api/Room/GetAllRoomsByClientId?id=' +
+          this.userDetails.clientId
+      )
+      .subscribe((res: any) => {
+        debugger;
+        this.roomsArray = res.data;
+      });
   }
-     // Model Open
+  // Model Open
   openBooking() {
-    const model = document.getElementById('myModal')
+    const model = document.getElementById('myModal');
     if (model != null) {
       model.style.display = 'block';
     }
   }
-    // Model close
+  // Model close
   closeBooking() {
-    const model = document.getElementById('myModal')
+    const model = document.getElementById('myModal');
     if (model != null) {
       model.style.display = 'none';
     }
   }
 
   saveBooking() {
-    this.http.post(' ', this.bookingObj).subscribe((res: any) => {
-      if (res.result) {
-        alert('Booking Done')
-        this.getAllBooking();
-      }
-      else{
-        alert('Booking Not Completed')
-      }
-    })
+    debugger;
+    this.http
+      .post(
+        'https://localhost:7143/api/Bookings/CreateBooking',
+        this.bookingObj
+      )
+      .subscribe((response: any) => {
+        debugger;
+        if (response.result) {
+          alert('Booking Done');
+          this.getAllBooking();
+        } else {
+          alert('Booking Not Completed');
+        }
+      });
   }
-  getAllBooking(){
-    this.http.get('getallbookingclientById').subscribe((res:any)=>{
-      this.bookingArray=res.data;
-    })
+  getAllBooking() {
+    this.http
+      .get(
+        'https://localhost:7143/api/Bookings/GetAllBookingsByClientId?id=1'
+      )
+      .subscribe((res: any) => {
+        debugger;
+        this.bookingArray = res.data;
+      });
   }
 
-  checkIfRoomBooked(RoomId:number, timeId:number){
-     const bookingDate=this.bookingArray.find(m=>m.RoomId==RoomId&& (m.fromTime==timeId || m.toTime==timeId));
-     if(bookingDate){
+  checkIfRoomBooked(roomId: number, timeId: number): boolean {
+    const bookingDate = this.bookingArray.find(
+      (m) => m.roomId == roomId && (m.fromTime == timeId || m.toTime == timeId)
+    );
+    if (bookingDate) {
       return true;
-     }
-     else{
+    } else {
       return false;
-     }
+    }
   }
 }
